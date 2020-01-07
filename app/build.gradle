@@ -1,8 +1,7 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
@@ -25,10 +24,33 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    //core
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.core:core-ktx:1.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.core:core-ktx:1.1.0'
+    //cicerone
+    implementation("ru.terrakok.cicerone:cicerone:5.0.0")
+    //DI
+    implementation("com.github.stephanenicolas.toothpick:toothpick-runtime:2.1.0")
+    kapt("com.github.stephanenicolas.toothpick:toothpick-compiler:2.1.0")
+    //mvi
+    implementation 'com.github.badoo.mvicore:mvicore:1.2.4'
+    implementation 'com.github.badoo.mvicore:mvicore-android:1.2.4'
+    implementation 'com.github.badoo.mvicore:mvicore-diff:1.2.4'
+    //RxJava
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
+    implementation("io.reactivex.rxjava2:rxjava:2.2.6")
+    implementation 'com.jakewharton.rxrelay2:rxrelay:2.1.0'
+    //material design
+    implementation "com.google.android.material:material:1.2.0-alpha03"
+    //Retrofit2
+    implementation "com.squareup.retrofit2:retrofit:2.5.0"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:2.5.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.5.0"
+    //OkHTTP
+    implementation "com.squareup.okhttp3:logging-interceptor:3.11.0"
+    //glide
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    kapt 'com.github.bumptech.glide:compiler:4.9.0'
+    implementation "com.github.bumptech.glide:okhttp3-integration:4.9.0"
 }
