@@ -1,6 +1,5 @@
 package com.regiva.simple_vk_client.ui.auth
 
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -29,13 +28,8 @@ class AuthorizeFragment : BaseFragment() {
     override val layoutRes: Int
         get() = R.layout.fragment_authorize
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return inflater.inflate(layoutRes, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
+        inflater.inflate(layoutRes, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,12 +40,16 @@ class AuthorizeFragment : BaseFragment() {
     private fun openAuthPage() {
         wv_auth.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                //todo
                 Log.d("rere", "url = $url")
                 if ((url?.contains("https://oauth.vk.com/blank.html")) == true) {
                     Log.d("rere", "ya zawel)")
-                    Uri.parse(url).getQueryParameter("access_token")?.let {
-                        authInteractor.storeToken(it)
-                    }
+
+                    val token = url
+                        .substringAfter("access_token=")
+                        .substringBefore("&expires_in")
+                    Log.d("rere", "save token blean $token")
+                    authInteractor.storeToken(token)
                     flowRouter.newRootFlow(Screens.Main())
                 }
                 else {

@@ -1,5 +1,6 @@
 package com.regiva.simple_vk_client.presentation
 
+import android.util.Log
 import com.regiva.simple_vk_client.Screens
 import com.regiva.simple_vk_client.di.DI
 import com.regiva.simple_vk_client.di.module.ServerModule
@@ -21,12 +22,13 @@ class AppLauncher @Inject constructor(
     }
 
     fun coldStart() {
-//        if (authInteractor.isLoggedIn()) {
-//            router.newRootScreen(Screens.Main())
-//        }
-//        else {
-//            router.newRootScreen(Screens.AuthFlow)
-//        }
-        router.newRootScreen(Screens.AuthFlow)
+        if (authInteractor.isLoggedIn()) {
+            Log.d("rere", "main yopta =)")
+            router.newRootScreen(Screens.Main())
+        }
+        else {
+            Log.d("rere", "huinya vishla.... =(")
+            router.newRootScreen(Screens.AuthFlow)
+        }
     }
 }
