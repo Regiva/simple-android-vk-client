@@ -2,6 +2,8 @@ package com.regiva.simple_vk_client
 
 import com.regiva.simple_vk_client.ui.auth.AuthFlowFragment
 import com.regiva.simple_vk_client.ui.auth.AuthorizeFragment
+import com.regiva.simple_vk_client.ui.home.HomeFlowFragment
+import com.regiva.simple_vk_client.ui.home.HomeFragment
 import com.regiva.simple_vk_client.ui.main.MainFragment
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 
@@ -13,12 +15,12 @@ object Screens {
     }
 
     //todo
-    /*//tab flows
+    //tab flows
     object HomeFlow : SupportAppScreen() {
         override fun getFragment() = HomeFlowFragment()
     }
 
-    object ProfileFlow : SupportAppScreen() {
+    /*object ProfileFlow : SupportAppScreen() {
         override fun getFragment() = ProfileFlowFragment()
     }*/
 
@@ -31,5 +33,8 @@ object Screens {
         override fun getFragment() = MainFragment.create(currentTab)
     }
 
+    object Home : SupportAppScreen() {
+        override fun getFragment() = HomeFragment()
+    }
 
 }

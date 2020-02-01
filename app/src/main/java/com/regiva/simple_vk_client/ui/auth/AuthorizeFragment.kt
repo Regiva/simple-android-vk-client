@@ -58,7 +58,8 @@ class AuthorizeFragment : BaseFragment() {
                 return false
             }
         }
-        wv_auth.loadUrl("https://oauth.vk.com/authorize?client_id=${Constants.Api.APP_ID}&display=page&redirect_uri=https://oauth.vk.com/blank.html&scope=offline&response_type=token&v=5.52")
+        //todo 23429620123402ab3988552cb543802cb7c0e26f4547f5b302b1e91ffdd442d467fdd0e065002c1ac1de7
+        wv_auth.loadUrl("https://oauth.vk.com/authorize?client_id=${Constants.Api.APP_ID}&display=page&redirect_uri=https://oauth.vk.com/blank.html&scope=wall,friends&response_type=token&v=5.60")
     }
 
     private fun setOnClickListeners() {

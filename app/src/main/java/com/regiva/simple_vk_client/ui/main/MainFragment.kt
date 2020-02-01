@@ -3,6 +3,7 @@ package com.regiva.simple_vk_client.ui.main
 import android.os.Bundle
 import androidx.core.os.bundleOf
 import com.regiva.simple_vk_client.R
+import com.regiva.simple_vk_client.Screens
 import com.regiva.simple_vk_client.ui.base.BaseFragment
 import com.regiva.simple_vk_client.ui.base.FlowFragment
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -26,8 +27,8 @@ class MainFragment : BaseFragment() {
 
     private var currentTab: Int? = null
 //todo
-//    private val homeTab by lazy { Screens.HomeFlow }
-//    private val profileTab by lazy { Screens.ProfileFlow }
+    private val homeTab by lazy { Screens.HomeFlow }
+    private val profileTab by lazy { Screens.HomeFlow }
 
     override val layoutRes: Int
         get() = R.layout.fragment_main
@@ -51,9 +52,9 @@ class MainFragment : BaseFragment() {
         bnv_main.itemIconTintList = null
         bnv_main.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-//                R.id.home -> selectTab(homeTab)
-//                R.id.profile -> selectTab(profileTab)
-//                else -> selectTab(homeTab)
+                R.id.home -> selectTab(homeTab)
+                R.id.profile -> selectTab(profileTab)
+                else -> selectTab(homeTab)
             }
             true
         }
@@ -66,13 +67,13 @@ class MainFragment : BaseFragment() {
             intArrayOf(R.color.black, R.color.mhBlue)
         )*/
         bnv_main.selectedItemId = currentTab ?: R.id.home
-//        selectTab(
-//            when (currentTabFragment?.tag) {
-//                homeTab.screenKey -> homeTab
-//                profileTab.screenKey -> profileTab
-//                else -> homeTab
-//            }
-//        )
+        selectTab(
+            when (currentTabFragment?.tag) {
+                homeTab.screenKey -> homeTab
+                profileTab.screenKey -> profileTab
+                else -> homeTab
+            }
+        )
     }
 
     private fun selectTab(tab: SupportAppScreen) {

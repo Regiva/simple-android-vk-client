@@ -5,6 +5,6 @@ object Constants {
     // api constants
     object Api {
         const val APP_ID = "7301530"
-        const val BASE_URL = "https://api.vk.com/method"
+        const val BASE_URL = "https://api.vk.com/method/"
     }
 }

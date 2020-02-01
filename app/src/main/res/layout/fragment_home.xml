@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/defaultToolbarStyle"
+        app:titleTextAppearance="@style/textStyle.toolbar"
+        app:title="Новости"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_posts_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:gravity="center"
+        android:visibility="invisible">
+
+        <TextView
+            android:id="@+id/tv_posts_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/there_are_no_posts"
+            style="@style/textStyle.darkGrey.bold.16"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_posts_not_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:background="@color/barvinock"
+        android:visibility="invisible">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_posts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/item_post"
+            tools:itemCount="2"/>
+
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/pb_loading"
+        style="@style/progressBarStyle"/>
+
+</RelativeLayout>
