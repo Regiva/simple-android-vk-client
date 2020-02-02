@@ -10,7 +10,8 @@
         android:id="@+id/toolbar"
         style="@style/defaultToolbarStyle"
         app:titleTextAppearance="@style/textStyle.toolbar"
-        app:title="Новости"/>
+        app:titleTextColor="@color/white"
+        app:title="@string/news"/>
 
     <RelativeLayout
         android:id="@+id/rl_posts_empty"

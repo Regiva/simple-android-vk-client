@@ -7,7 +7,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.badoo.mvicore.android.AndroidBindings
 import com.badoo.mvicore.binder.using
 import com.regiva.simple_vk_client.R
-import com.regiva.simple_vk_client.entity.PostModel
+import com.regiva.simple_vk_client.entity.newsfeed.PostModel
+import com.regiva.simple_vk_client.entity.responses.newsfeed.PostResponseModel
 import com.regiva.simple_vk_client.model.data.feature.PostsFeature
 import com.regiva.simple_vk_client.model.system.FlowRouter
 import com.regiva.simple_vk_client.ui.base.MviFragment
@@ -31,7 +32,7 @@ class HomeFragment : MviFragment<HomeFragment.ViewModel, HomeFragment.UiEvents>(
         PostsAdapter(listOf()) { /*doc -> onNext(UiEvents.OnLikeClicked(doc.id))*/ }
     }
 
-    private var posts: List<PostModel>? = null
+    private var posts: List<PostResponseModel>? = null
 //    private var person: PersonResponse? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -100,10 +101,10 @@ class HomeFragment : MviFragment<HomeFragment.ViewModel, HomeFragment.UiEvents>(
 
     override fun accept(vm: ViewModel) {
         pb_loading?.setLoadingState(vm.isLoading)
-        vm.posts?.let { docs ->
+        vm.posts?.let { posts ->
 //            docs.forEach { it.favorite = person?.favourite_document_ids?.contains(it.id) ?: false }
             Log.d("rere", "accept")
-            showPosts(docs)
+            showPosts(posts)
         }
     }
 

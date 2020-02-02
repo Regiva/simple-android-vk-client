@@ -2,7 +2,9 @@ package com.regiva.simple_vk_client.ui.home.adapter
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.regiva.simple_vk_client.entity.PostModel
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.regiva.simple_vk_client.entity.newsfeed.PostModel
 import com.regiva.simple_vk_client.util.convertToDateFormat
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_post.view.*
@@ -16,11 +18,11 @@ class PostHolder(
         likeClick: (PostModel) -> Unit
     ) {
 //        initPhotos(data.photos)
-        containerView.tv_name.text = data.source_id.toString()
+        containerView.tv_name.text = data.source.name
         containerView.tv_date.text = data.date.convertToDateFormat()
         containerView.tv_post_text.text = data.text
-        containerView.tv_likes_count.text = data.likes?.count.toString()
-        containerView.tv_comments_count.text = data.comments?.count.toString()
+        containerView.tv_likes_count.text = data.likes_count.toString()
+        containerView.tv_comments_count.text = data.comment_count.toString()
 //        cb_like.isChecked = data.favorite
 //        cb_like.setOnClickListener { likeClick(data) }
         /*if (data.comment.isNotBlank())
@@ -28,11 +30,11 @@ class PostHolder(
         else
             tv_doc_desription?.visibility = View.GONE*/
 
-        /*Glide.with(containerView.context)
-            .load(Constants.Api.BASE_URL_PHOTOS + data.person.photo)
-            .placeholder(R.drawable.ic_person_avatar_placeholder)
+        Glide.with(containerView.context)
+            .load(data.source.photo)
+            //todo .placeholder(R.drawable.ic_person_avatar_placeholder)
             .apply(RequestOptions().circleCrop())
-            .into(itemView.iv_avatar)*/
+            .into(itemView.iv_avatar)
     }
 
     /*private fun initPhotos(photos: List<SingleIdModel>) {

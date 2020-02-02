@@ -5,7 +5,6 @@
 
     //text toolbar
     <style name="textStyle.toolbar" parent="textStyle">
-        <item name="android:textColor">@color/white</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
     </style>

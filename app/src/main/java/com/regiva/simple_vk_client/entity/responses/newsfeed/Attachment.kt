@@ -1,4 +1,4 @@
-package com.regiva.simple_vk_client.entity
+package com.regiva.simple_vk_client.entity.responses.newsfeed
 
 data class Attachment(
     val type: String,

@@ -4,7 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.regiva.simple_vk_client.R
-import com.regiva.simple_vk_client.entity.PostModel
+import com.regiva.simple_vk_client.entity.newsfeed.PostModel
+import com.regiva.simple_vk_client.entity.responses.newsfeed.PostResponseModel
 import com.regiva.simple_vk_client.util.applyDiff
 
 class PostsAdapter(
