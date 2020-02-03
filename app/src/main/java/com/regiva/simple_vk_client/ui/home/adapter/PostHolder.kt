@@ -55,7 +55,7 @@ class PostHolder(
                 Log.d("rere", "blya ya zdes!!!")
 //                containerView.rv_photos.recycledViewPool.setMaxRecycledViews(0, 0)
                 containerView.rv_photos.layoutManager = GridLayoutManager(containerView.context, 1)
-                containerView.rv_photos.adapter = PhotosAdapter(photos.filter { it.type == "photo" }) {}
+                containerView.rv_photos.adapter = PhotosAdapter(photos.filter { it.type == "photo" })
 //                Glide.with(containerView.context)
 //                    .load(this[0].photo?.photo_604 ?: this[0].photo?.photo_807 ?: this[0].photo?.photo_130)
 //                    .into(containerView.iv_single_photo)
@@ -64,7 +64,7 @@ class PostHolder(
 //                containerView.iv_single_photo.setGone()
 //                containerView.rv_photos.recycledViewPool.setMaxRecycledViews(0, 0)
                 containerView.rv_photos.layoutManager = GridLayoutManager(containerView.context, 3)
-                containerView.rv_photos.adapter = PhotosAdapter(photos.filter { it.type == "photo" }) {}
+                containerView.rv_photos.adapter = PhotosAdapter(photos.filter { it.type == "photo" })
             }
         }
         /*if (photos.any { it.type == "photo" }) {

@@ -5,12 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.regiva.simple_vk_client.R
 import com.regiva.simple_vk_client.entity.newsfeed.PostModel
-import com.regiva.simple_vk_client.entity.responses.newsfeed.PostResponseModel
+import com.regiva.simple_vk_client.entity.responses.newsfeed.Attachment
 import com.regiva.simple_vk_client.util.applyDiff
 
 class PostsAdapter(
     private var list: List<PostModel>,
-    private val likeClick: (PostModel) -> Unit
+    private val likeClick: (PostModel) -> Unit,
+    private val openPhotosClick: (List<Attachment>) -> Unit
 ) : RecyclerView.Adapter<PostHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =

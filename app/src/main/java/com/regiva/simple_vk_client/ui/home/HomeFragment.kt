@@ -16,6 +16,7 @@ import com.regiva.simple_vk_client.ui.home.adapter.PostsAdapter
 import com.regiva.simple_vk_client.util.setGone
 import com.regiva.simple_vk_client.util.setLoadingState
 import com.regiva.simple_vk_client.util.setVisible
+import com.stfalcon.frescoimageviewer.ImageViewer
 import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -29,7 +30,15 @@ class HomeFragment : MviFragment<HomeFragment.ViewModel, HomeFragment.UiEvents>(
 //    private val errorHandler: ErrorHandler by scope()
 //    private val messageHandler: MessageHandler by scope()
     private val adapter: PostsAdapter by lazy {
-        PostsAdapter(listOf()) { /*doc -> onNext(UiEvents.OnLikeClicked(doc.id))*/ }
+        PostsAdapter(
+            listOf(),
+            {  },
+            {
+                ImageViewer.Builder(context, it.map { it.photo })
+                    .setStartPosition(0)
+                    .show()
+            }
+        )
     }
 
     private var posts: List<PostResponseModel>? = null

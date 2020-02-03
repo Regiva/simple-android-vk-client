@@ -7,8 +7,7 @@ import com.regiva.simple_vk_client.R
 import com.regiva.simple_vk_client.entity.responses.newsfeed.Attachment
 
 class PhotosAdapter (
-    var list: List<Attachment>,
-    private val openPhotosClick: (List<Attachment>) -> Unit
+    var list: List<Attachment>
 ) : RecyclerView.Adapter<PhotoHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -24,8 +23,8 @@ class PhotosAdapter (
 
     override fun onBindViewHolder(holder: PhotoHolder, position: Int) =
         holder.bind(
+            position,
             list[position],
-            openPhotosClick,
             list
         )
 
