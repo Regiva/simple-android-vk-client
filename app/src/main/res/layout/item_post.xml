@@ -74,45 +74,20 @@
         tools:visibility="visible"
         android:layout_alignLeft="@id/tv_post_text" />
 
-    <RelativeLayout
-        android:id="@+id/rl_photos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_more">
-
-        <FrameLayout
-            android:id="@+id/fl_photos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/vp_doc_photos"
-                android:layout_width="match_parent"
-                android:layout_height="370dp"/>
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tl_doc_photos_tabs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center_horizontal"
-                android:background="@android:color/transparent"
-                app:tabIndicatorGravity="bottom"
-                app:tabGravity="center"
-                app:tabIndicatorHeight="0dp"
-                app:tabIndicator="@null"
-                app:tabPaddingStart="6dp"
-                app:tabPaddingEnd="6dp"/>
-
-        </FrameLayout>
-
-    </RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_photos"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tv_more"
+        android:layout_marginTop="8dp"
+        tools:listitem="@layout/item_photo"
+        tools:itemCount="1"/>
 
     <RelativeLayout
         android:id="@+id/rl_likes_and_comments"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_photos"
+        android:layout_below="@+id/rv_photos"
         android:layout_marginTop="8dp"
         android:layout_marginStart="12dp"
         android:layout_marginLeft="12dp">

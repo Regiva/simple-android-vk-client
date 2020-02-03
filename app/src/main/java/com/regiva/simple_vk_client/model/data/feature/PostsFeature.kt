@@ -54,83 +54,7 @@ class PostsFeature @Inject constructor(
             is Wish.GetAllPosts ->
                 postsInteractor.getNewsfeed()
                     .map { response ->
-                        Log.d("rere", "map yopta")
-                        Log.d("rere", "${response.response.items.map { "\n $it" }}")
-//                        Log.d("rere", "${response.response.profiles.map { it.id }}")
-//                        Log.d("rere", "${response.response.groups.map { it.id }}")
-                        val postss = arrayListOf<PostModel>()
-                        response.response.items.forEachIndexed { index, postResponse  ->
-                            Log.d("rere", "index = $index")
-                            val postSource =
-                                if (postResponse.source_id > 0) {
-                                    response.response.profiles.find { it.id == -postResponse.source_id }?.let {
-                                        PostSourceModel(
-                                            id = it?.id ?: 0,
-                                            name = it?.getName() ?: "",
-                                            photo = it?.photo_100 ?: ""
-                                        )
-                                    }
-                                }
-                                else {
-                                    response.response.groups.find { it.id == -postResponse.source_id }?.let {
-                                        PostSourceModel(
-                                            id = it?.id ?: 0,
-                                            name = it?.name ?: "",
-                                            photo = it?.photo_100 ?: ""
-                                        )
-                                    }
-                                }
-                            Log.d("rere", "map $postResponse")
-                            postSource?.let {
-                                postss.add(
-                                    PostModel(
-                                        source = it,
-                                        date = postResponse.date,
-                                        text = postResponse.text,
-                                        comment_count = postResponse.comments?.count ?: 0,
-                                        likes_count = postResponse.likes?.count ?: 0,
-                                        post_id = postResponse.post_id
-                                    )
-                                )
-                            }
-                        }
-                        /*val posts = response.response.items
-                            .filter { postResponse ->
-                                val postSource: PostSourceModel? =
-                                    if (postResponse.source_id > 0) {
-                                        response.response.profiles.find { it.id == postResponse.source_id }?.let {
-                                            PostSourceModel(
-                                                id = it?.id ?: 0,
-                                                name = it?.getName() ?: "",
-                                                photo = it?.photo_100 ?: ""
-                                            )
-                                        }
-                                        *//*with (response.response.profiles.find { it.id == postResponse.source_id }) {
-                                            PostSourceModel(
-                                                id = this?.id ?: 0,
-                                                name = this?.getName() ?: "",
-                                                photo = this?.photo_100 ?: ""
-                                            )
-                                        }*//*
-                                    }
-                                    else {
-                                        response.response.groups.find { it.id == -postResponse.source_id }?.let {
-                                            PostSourceModel(
-                                                id = it?.id ?: 0,
-                                                name = it?.name ?: "",
-                                                photo = it?.photo_100 ?: ""
-                                            )
-                                        }
-                                        *//*with (response.response.groups.find { it.id == -postResponse.source_id }) {
-                                            PostSourceModel(
-                                                id = this?.id ?: 0,
-                                                name = this?.name ?: "",
-                                                photo = this?.photo_100 ?: ""
-                                            )
-                                        }*//*
-                                    }
-                                postSource != null
-                            }
+                        val posts = response.response.items
                             .map { postResponse ->
                             val postSource =
                                 if (postResponse.source_id > 0) {
@@ -151,28 +75,25 @@ class PostsFeature @Inject constructor(
                                         )
                                     }
                                 }
+                                //todo
                             Log.d("rere", "map $postSource")
                             PostModel(
                                 source = postSource,
                                 date = postResponse.date,
                                 text = postResponse.text,
+                                attachments = postResponse.attachments,
                                 comment_count = postResponse.comments?.count ?: 0,
                                 likes_count = postResponse.likes?.count ?: 0,
                                 post_id = postResponse.post_id
                             )
-                        }*/
-                        Log.d("rere", "map blyad $postss")
-                        Effect.GetAllPostsSuccess(postss) as Effect
+                        }
+                        posts.forEachIndexed { index, postModel ->
+                            Log.d("rere $index", "$postModel \n")
+                        }
+//                        Log.d("rere", "map blyad ${posts.map { "\n $it" }}")
+                        Effect.GetAllPostsSuccess(posts.filter { !it.text.isNullOrBlank() && !it.attachments.isNullOrEmpty() }) as Effect
                     }
-                        //todo
-                    /*.flatMap { person ->
-                        docsInteractor.getAllDocsForPerson(person.id)
-                            .map { Effect.GetAllPostsSuccess(it.data) as Effect }
-                            .startWith(Effect.GetAllPostsStart)
-                            .onErrorReturn { Effect.GetAllPostsFailure(it) }
-                    }*/
                     .startWith(Effect.GetAllPostsStart)
-                    //.doOnError { it.printStackTrace() }
                     .onErrorReturn { Effect.GetAllPostsFailure(it) }
         }
     }

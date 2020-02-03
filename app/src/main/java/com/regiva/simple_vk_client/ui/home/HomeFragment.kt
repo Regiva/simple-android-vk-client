@@ -81,6 +81,7 @@ class HomeFragment : MviFragment<HomeFragment.ViewModel, HomeFragment.UiEvents>(
     private fun initRecycler() {
         rv_posts.layoutManager = LinearLayoutManager(activity)
         rv_posts.adapter = adapter
+//        rv_posts.recycledViewPool.setMaxRecycledViews(0, 0)
     }
 
     private fun setOnClickListeners() {
