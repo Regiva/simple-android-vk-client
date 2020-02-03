@@ -1,4 +1,4 @@
-package com.regiva.simple_vk_client.ui.home.adapter
+package com.regiva.simple_vk_client.ui.home.list.adapter
 
 import android.util.Log
 import android.view.View
@@ -18,9 +18,11 @@ class PostHolder(
 
     fun bind(
         data: PostModel,
-        likeClick: (PostModel) -> Unit
+        likeClick: (PostModel) -> Unit,
+        goToDetailedPost: (PostModel) -> Unit
     ) {
         data.attachments?.let { initPhotos(it) }
+        containerView.setOnClickListener { goToDetailedPost(data) }
         containerView.tv_name.text = data.source.name
         containerView.tv_date.text = data.date.convertToDateFormat()
         containerView.tv_post_text.text = data.text
@@ -44,8 +46,8 @@ class PostHolder(
 //            .into(itemView.iv_avatar)
     }
 
-    private fun initPhotos(photos: List<Attachment>) {
-        with(photos.filter { it.type == "photo" }) {
+    private fun initPhotos(attachments: List<Attachment>) {
+        with(attachments.filter { it.type == "photo" }) {
             Log.d("rere", "size = ${this.size}")
            /* if (this.isNullOrEmpty()) {
                 containerView.rv_photos.setGone()
@@ -55,7 +57,7 @@ class PostHolder(
                 Log.d("rere", "blya ya zdes!!!")
 //                containerView.rv_photos.recycledViewPool.setMaxRecycledViews(0, 0)
                 containerView.rv_photos.layoutManager = GridLayoutManager(containerView.context, 1)
-                containerView.rv_photos.adapter = PhotosAdapter(photos.filter { it.type == "photo" })
+                containerView.rv_photos.adapter = PhotosAdapter(attachments.filter { it.type == "photo" })
 //                Glide.with(containerView.context)
 //                    .load(this[0].photo?.photo_604 ?: this[0].photo?.photo_807 ?: this[0].photo?.photo_130)
 //                    .into(containerView.iv_single_photo)
@@ -64,15 +66,8 @@ class PostHolder(
 //                containerView.iv_single_photo.setGone()
 //                containerView.rv_photos.recycledViewPool.setMaxRecycledViews(0, 0)
                 containerView.rv_photos.layoutManager = GridLayoutManager(containerView.context, 3)
-                containerView.rv_photos.adapter = PhotosAdapter(photos.filter { it.type == "photo" })
+                containerView.rv_photos.adapter = PhotosAdapter(attachments.filter { it.type == "photo" })
             }
         }
-        /*if (photos.any { it.type == "photo" }) {
-            containerView.rv_photos.layoutManager = GridLayoutManager(containerView.context, 2)
-            containerView.rv_photos.adapter = PhotosAdapter(photos.filter { it.type == "photo" }) {}
-        }
-        else {
-            containerView.rv_photos.visibility = View.GONE
-        }*/
     }
 }

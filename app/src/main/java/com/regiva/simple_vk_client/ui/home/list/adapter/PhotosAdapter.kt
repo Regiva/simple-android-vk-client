@@ -1,4 +1,4 @@
-package com.regiva.simple_vk_client.ui.home.adapter
+package com.regiva.simple_vk_client.ui.home.list.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

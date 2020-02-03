@@ -1,4 +1,4 @@
-package com.regiva.simple_vk_client.ui.home
+package com.regiva.simple_vk_client.ui.home.list
 
 import com.regiva.simple_vk_client.Screens
 import com.regiva.simple_vk_client.ui.base.FlowFragment

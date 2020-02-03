@@ -1,17 +1,16 @@
-package com.regiva.simple_vk_client.ui.home.adapter
+package com.regiva.simple_vk_client.ui.home.list.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.regiva.simple_vk_client.R
 import com.regiva.simple_vk_client.entity.newsfeed.PostModel
-import com.regiva.simple_vk_client.entity.responses.newsfeed.Attachment
 import com.regiva.simple_vk_client.util.applyDiff
 
 class PostsAdapter(
     private var list: List<PostModel>,
     private val likeClick: (PostModel) -> Unit,
-    private val openPhotosClick: (List<Attachment>) -> Unit
+    private val goToDetailedPost: (PostModel) -> Unit
 ) : RecyclerView.Adapter<PostHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -28,7 +27,8 @@ class PostsAdapter(
     override fun onBindViewHolder(holder: PostHolder, position: Int) =
         holder.bind(
             list[position],
-            likeClick
+            likeClick,
+            goToDetailedPost
         )
 
     fun updateList(newList: List<PostModel>) {

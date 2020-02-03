@@ -1,22 +1,20 @@
-package com.regiva.simple_vk_client.ui.home
+package com.regiva.simple_vk_client.ui.home.list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.badoo.mvicore.android.AndroidBindings
 import com.badoo.mvicore.binder.using
 import com.regiva.simple_vk_client.R
+import com.regiva.simple_vk_client.Screens
 import com.regiva.simple_vk_client.entity.newsfeed.PostModel
-import com.regiva.simple_vk_client.entity.responses.newsfeed.PostResponseModel
 import com.regiva.simple_vk_client.model.data.feature.PostsFeature
 import com.regiva.simple_vk_client.model.system.FlowRouter
 import com.regiva.simple_vk_client.ui.base.MviFragment
-import com.regiva.simple_vk_client.ui.home.adapter.PostsAdapter
+import com.regiva.simple_vk_client.ui.home.list.adapter.PostsAdapter
 import com.regiva.simple_vk_client.util.setGone
 import com.regiva.simple_vk_client.util.setLoadingState
 import com.regiva.simple_vk_client.util.setVisible
-import com.stfalcon.frescoimageviewer.ImageViewer
 import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -32,17 +30,10 @@ class HomeFragment : MviFragment<HomeFragment.ViewModel, HomeFragment.UiEvents>(
     private val adapter: PostsAdapter by lazy {
         PostsAdapter(
             listOf(),
-            {  },
-            {
-                ImageViewer.Builder(context, it.map { it.photo })
-                    .setStartPosition(0)
-                    .show()
-            }
+            { /*todo like btn*/ },
+            { flowRouter.navigateTo(Screens.DetailedPost(it)) }
         )
     }
-
-    private var posts: List<PostResponseModel>? = null
-//    private var person: PersonResponse? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +48,6 @@ class HomeFragment : MviFragment<HomeFragment.ViewModel, HomeFragment.UiEvents>(
 
     override fun onResume() {
         super.onResume()
-        Log.d("rere", "onresume")
         onNext(UiEvents.OnStart)
     }
 
@@ -66,10 +56,7 @@ class HomeFragment : MviFragment<HomeFragment.ViewModel, HomeFragment.UiEvents>(
             override fun setup(view: HomeFragment) {
                 binder.bind(view to feature using { event ->
                     when (event) {
-                        is UiEvents.OnStart -> {
-                            Log.d("rere", "event")
-                            PostsFeature.Wish.GetAllPosts
-                        }
+                        is UiEvents.OnStart -> PostsFeature.Wish.GetAllPosts
                     }
                 })
                 binder.bind(feature to view using { state ->
@@ -111,11 +98,7 @@ class HomeFragment : MviFragment<HomeFragment.ViewModel, HomeFragment.UiEvents>(
 
     override fun accept(vm: ViewModel) {
         pb_loading?.setLoadingState(vm.isLoading)
-        vm.posts?.let { posts ->
-//            docs.forEach { it.favorite = person?.favourite_document_ids?.contains(it.id) ?: false }
-            Log.d("rere", "accept")
-            showPosts(posts)
-        }
+        vm.posts?.let { showPosts(it) }
     }
 
     sealed class UiEvents {

@@ -1,9 +1,11 @@
 package com.regiva.simple_vk_client
 
+import com.regiva.simple_vk_client.entity.newsfeed.PostModel
 import com.regiva.simple_vk_client.ui.auth.AuthFlowFragment
 import com.regiva.simple_vk_client.ui.auth.AuthorizeFragment
-import com.regiva.simple_vk_client.ui.home.HomeFlowFragment
-import com.regiva.simple_vk_client.ui.home.HomeFragment
+import com.regiva.simple_vk_client.ui.home.detail.DetailedPostFragment
+import com.regiva.simple_vk_client.ui.home.list.HomeFlowFragment
+import com.regiva.simple_vk_client.ui.home.list.HomeFragment
 import com.regiva.simple_vk_client.ui.main.MainFragment
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 
@@ -37,4 +39,7 @@ object Screens {
         override fun getFragment() = HomeFragment()
     }
 
+    data class DetailedPost(val post: PostModel) : SupportAppScreen() {
+        override fun getFragment() = DetailedPostFragment.create(post)
+    }
 }

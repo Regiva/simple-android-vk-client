@@ -1,4 +1,4 @@
-package com.regiva.simple_vk_client.ui.home.adapter
+package com.regiva.simple_vk_client.ui.home.list.adapter
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +20,7 @@ class PhotoHolder(
         photos: List<Attachment>
     ) {
         containerView.setOnClickListener {
-            ImageViewer.Builder(containerView.context, photos.map { it.photo?.photo_604 })
+            ImageViewer.Builder(containerView.context, photos.map { it.photo?.photo_807 ?: it.photo?.photo_604 })
                 .setStartPosition(position)
                 .show()
         }
