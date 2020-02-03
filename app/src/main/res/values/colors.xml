@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#4D94FF</color>
-    <color name="colorPrimaryDark">#A6C9FF</color>
+    <color name="colorPrimary">#0e5fe3</color>
+    <color name="colorPrimaryDark">#4D94FF</color>
     <color name="colorAccent">#D81B60</color>
     <color name="white">#ffffff</color>
     <color name="errorRed">#FF6157</color>
@@ -9,4 +9,5 @@
     <color name="darkGrey">#333333</color>
     <color name="aqua">#9AA3B0</color>
     <color name="barvinock">#EFF1F4</color>
+    <!--#2771e8-->
 </resources>
