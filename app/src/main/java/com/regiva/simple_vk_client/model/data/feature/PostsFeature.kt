@@ -1,6 +1,5 @@
 package com.regiva.simple_vk_client.model.data.feature
 
-import android.util.Log
 import com.badoo.mvicore.element.Actor
 import com.badoo.mvicore.element.NewsPublisher
 import com.badoo.mvicore.element.Reducer
@@ -76,7 +75,7 @@ class PostsFeature @Inject constructor(
                                     }
                                 }
                                 //todo
-                            Log.d("rere", "map $postSource")
+//                            Log.d("rere", "map $postSource")
                             PostModel(
                                 source = postSource,
                                 date = postResponse.date,
@@ -87,10 +86,10 @@ class PostsFeature @Inject constructor(
                                 post_id = postResponse.post_id
                             )
                         }
-                        posts.forEachIndexed { index, postModel ->
-                            Log.d("rere $index", "$postModel \n")
-                        }
-//                        Log.d("rere", "map blyad ${posts.map { "\n $it" }}")
+//                        posts.forEachIndexed { index, postModel ->
+//                            Log.d("rere $index", "$postModel \n")
+//                        }
+//                        Log.d("rere", "map blyad ${comments.map { "\n $it" }}")
                         Effect.GetAllPostsSuccess(posts.filter { !it.text.isNullOrBlank() && !it.attachments.isNullOrEmpty() }) as Effect
                     }
                     .startWith(Effect.GetAllPostsStart)

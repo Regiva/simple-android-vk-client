@@ -4,17 +4,24 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.badoo.mvicore.android.AndroidBindings
+import com.badoo.mvicore.binder.using
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.regiva.simple_vk_client.R
 import com.regiva.simple_vk_client.entity.newsfeed.PostModel
+import com.regiva.simple_vk_client.entity.responses.newsfeed.CommentResponseModel
+import com.regiva.simple_vk_client.model.data.feature.DetailedPostFeature
 import com.regiva.simple_vk_client.model.system.FlowRouter
-import com.regiva.simple_vk_client.ui.base.BaseFragment
+import com.regiva.simple_vk_client.ui.base.MviFragment
+import com.regiva.simple_vk_client.ui.home.detail.adapter.CommentsAdapter
 import com.regiva.simple_vk_client.ui.home.list.adapter.PhotosAdapter
 import com.regiva.simple_vk_client.util.convertToDateFormat
+import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.fragment_detailed_post.*
 
-class DetailedPostFragment : BaseFragment()/*MviFragment<DetailedPostFragment.ViewModel, DetailedPostFragment.UiEvents>()*/ {
+class DetailedPostFragment : MviFragment<DetailedPostFragment.ViewModel, DetailedPostFragment.UiEvents>() {
 
     companion object {
         fun create(post: PostModel) =
@@ -31,11 +38,15 @@ class DetailedPostFragment : BaseFragment()/*MviFragment<DetailedPostFragment.Vi
         get() = R.layout.fragment_detailed_post
 
     private val flowRouter: FlowRouter by scope()
-//    private val feature: PostsFeature by scope()
+    private val feature: DetailedPostFeature by scope()
     //    private val errorHandler: ErrorHandler by scope()
 //    private val messageHandler: MessageHandler by scope()
-    private val adapter: PhotosAdapter by lazy {
+    private val photosAdapter: PhotosAdapter by lazy {
         PhotosAdapter(post?.attachments?.filter { it.type == "photo" } ?: listOf())
+    }
+
+    private val commentsAdapter: CommentsAdapter by lazy {
+        CommentsAdapter(listOf())
     }
 
     private var post: PostModel? = null
@@ -44,15 +55,22 @@ class DetailedPostFragment : BaseFragment()/*MviFragment<DetailedPostFragment.Vi
         super.onCreate(savedInstanceState)
         if (arguments?.containsKey(EXTRA_POST) == true) {
             arguments?.getParcelable<PostModel>(EXTRA_POST)?.let { post = it }
+            setUpBindings()
         }
-//        setUpBindings()
+        else showError(getString(R.string.error_was_occurred))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setOnClickListeners()
-        initRecycler()
+        initPhotosRecycler()
+        initCommentsRecycler()
         post?.let { setUpScreen(it) }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        onNext(UiEvents.OnStart)
     }
 
     private fun setUpScreen(post: PostModel) {
@@ -69,49 +87,59 @@ class DetailedPostFragment : BaseFragment()/*MviFragment<DetailedPostFragment.Vi
             .into(iv_avatar)
     }
 
-    /*private fun setUpBindings() {
+    private fun setUpBindings() {
         object : AndroidBindings<DetailedPostFragment>(this) {
-            override fun setup(view: HomeFragment) {
+            override fun setup(view: DetailedPostFragment) {
                 binder.bind(view to feature using { event ->
                     when (event) {
-                        is UiEvents.OnStart -> PostsFeature.Wish.GetAllPosts
+                        is UiEvents.OnStart -> DetailedPostFeature.Wish.GetComments(post?.source?.id ?: 0, post?.post_id ?: 0)
                     }
                 })
                 binder.bind(feature to view using { state ->
                     ViewModel(
                         state.isLoading,
-                        state.posts
+                        state.comments
                     )
                 })
                 binder.bind(feature.news to Consumer { news ->
                     when (news) {
-                        is PostsFeature.News.GetAllPostsFailure -> {} //errorHandler.proceed(news.throwable) { view.showError(it) }
+                        is DetailedPostFeature.News.GetCommentsFailure -> {} //errorHandler.proceed(news.throwable) { view.showError(it) }
                     }
                 })
             }
         }.setup(this)
-    }*/
+    }
 
-    private fun initRecycler() {
+    private fun initPhotosRecycler() {
         val spanCount = if (post?.attachments?.size == 1) 1 else 3
         rv_photos.layoutManager = GridLayoutManager(context, spanCount)
-        rv_photos.adapter = adapter
+        rv_photos.adapter = photosAdapter
+    }
+
+    private fun initCommentsRecycler() {
+        rv_comments.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        rv_comments.adapter = commentsAdapter
     }
 
     private fun setOnClickListeners() {
         toolbar.setNavigationOnClickListener { flowRouter.exit() }
     }
 
-//    override fun accept(vm: ViewModel) {
+    private fun showComments(comments: List<CommentResponseModel>) {
+        commentsAdapter.updateList(comments)
+    }
+
+    override fun accept(vm: ViewModel) {
 //        pb_loading?.setLoadingState(vm.isLoading)
-//        vm.posts?.let { showPosts(it) }
-//    }
+        vm.comments?.let { showComments(it) }
+    }
 
     sealed class UiEvents {
         object OnStart : UiEvents()
     }
 
     class ViewModel(
-        val isLoading: Boolean
+        val isLoading: Boolean,
+        val comments: List<CommentResponseModel>?
     )
 }

@@ -3,4 +3,5 @@
     <string name="show_full">Показать всё...</string>
     <string name="there_are_no_posts">У вас здесь пусто...</string>
     <string name="news">Новости</string>
+    <string name="error_was_occurred">Произошла ошибка</string>
 </resources>

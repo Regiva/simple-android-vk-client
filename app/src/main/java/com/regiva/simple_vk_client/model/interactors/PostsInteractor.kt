@@ -7,4 +7,6 @@ class PostsInteractor @Inject constructor(
     private val postsRepository: PostsRepository
 ) {
     fun getNewsfeed() = postsRepository.getNewsfeed()
+
+    fun getComments(owner_id: Long, post_id: Long) = postsRepository.getComments(owner_id, post_id)
 }

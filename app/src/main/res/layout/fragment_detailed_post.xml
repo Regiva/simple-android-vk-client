@@ -5,150 +5,147 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/defaultBlockStyle">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        app:layout_collapseMode="pin"
-        style="@style/defaultToolbarStyle"
-        app:navigationIcon="@drawable/ic_back_arrow"/>
-
-    <RelativeLayout
-        android:id="@+id/rl_post_info"
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:layout_below="@+id/toolbar">
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true">
+            android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/iv_avatar"
-                android:layout_marginStart="12dp"
-                android:layout_marginLeft="12dp"
-                style="@style/defaultAvatarStyle"
-                tools:src="@tools:sample/avatars"/>
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                app:layout_collapseMode="pin"
+                style="@style/defaultToolbarStyle"
+                app:navigationIcon="@drawable/ic_back_arrow"/>
+
+            <RelativeLayout
+                android:id="@+id/rl_post_info"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:layout_below="@+id/toolbar">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true">
+
+                    <ImageView
+                        android:id="@+id/iv_avatar"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginLeft="12dp"
+                        style="@style/defaultAvatarStyle"
+                        tools:src="@tools:sample/avatars"/>
+
+                    <TextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/iv_avatar"
+                        android:layout_toRightOf="@+id/iv_avatar"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginLeft="12dp"
+                        tools:text="Фамилия Имя"
+                        style="@style/textStyle.darkGrey.bold.14"/>
+
+                    <TextView
+                        android:id="@+id/tv_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/iv_avatar"
+                        android:layout_toRightOf="@+id/iv_avatar"
+                        android:layout_below="@+id/tv_name"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginLeft="12dp"
+                        tools:text="28 Июня 2018"
+                        style="@style/textStyle.aqua.normal.10"/>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
 
             <TextView
-                android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_post_text"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/iv_avatar"
-                android:layout_toRightOf="@+id/iv_avatar"
+                android:layout_below="@+id/rl_post_info"
                 android:layout_marginStart="12dp"
-                android:layout_marginLeft="12dp"
-                tools:text="Фамилия Имя"
-                style="@style/textStyle.darkGrey.bold.14"/>
+                android:layout_marginEnd="12dp"
+                tools:text="@tools:sample/lorem/random"
+                tools:maxLines="3"
+                android:ellipsize="end"
+                style="@style/textStyle.darkGrey.normal.14"/>
+
+            <!--todo rv android:layout_height="wrap_content"-->
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_photos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_post_text"
+                android:layout_marginTop="8dp"
+                tools:listitem="@layout/item_photo"
+                tools:itemCount="1"/>
+
+            <RelativeLayout
+                android:id="@+id/rl_likes_and_comments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rv_photos"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp">
+
+                <ImageView
+                    android:id="@+id/iv_like"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_like"/>
+
+                <TextView
+                    android:id="@+id/tv_likes_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_toEndOf="@+id/iv_like"
+                    android:layout_marginStart="4dp"
+                    tools:text="322"
+                    android:layout_toRightOf="@+id/iv_like"
+                    android:layout_marginLeft="4dp"
+                    android:gravity="center"
+                    style="@style/textStyle.aqua.bold.16"/>
+
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/underline_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/rl_likes_and_comments"
+                android:layout_marginTop="8dp"
+                android:background="@color/barvinock"/>
 
             <TextView
-                android:id="@+id/tv_date"
+                android:id="@+id/tv_comments_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/iv_avatar"
-                android:layout_toRightOf="@+id/iv_avatar"
-                android:layout_below="@+id/tv_name"
-                android:layout_marginTop="2dp"
+                android:layout_below="@+id/underline_toolbar"
+                android:layout_marginTop="8dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginLeft="12dp"
-                tools:text="28 Июня 2018"
-                style="@style/textStyle.aqua.normal.10"/>
+                tools:text="5 комментариев"
+                style="@style/textStyle.aqua.bold.16"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_comments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_comments_count"
+                tools:listitem="@layout/item_comment"/>
 
         </RelativeLayout>
 
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/tv_post_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_post_info"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        tools:text="@tools:sample/lorem/random"
-        tools:maxLines="3"
-        android:ellipsize="end"
-        style="@style/textStyle.darkGrey.normal.14"/>
-
-    <TextView
-        android:id="@+id/tv_more"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_post_text"
-        android:layout_alignStart="@id/tv_post_text"
-        android:text="@string/show_full"
-        android:textColor="@color/aqua"
-        android:visibility="gone"
-        tools:visibility="visible"
-        android:layout_alignLeft="@id/tv_post_text" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_photos"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/tv_more"
-        android:layout_marginTop="8dp"
-        tools:listitem="@layout/item_photo"
-        tools:itemCount="1"/>
-
-    <RelativeLayout
-        android:id="@+id/rl_likes_and_comments"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rv_photos"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp">
-
-        <ImageView
-            android:id="@+id/iv_like"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_like"/>
-
-        <TextView
-            android:id="@+id/tv_likes_count"
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:layout_toEndOf="@+id/iv_like"
-            android:layout_marginStart="4dp"
-            tools:text="322"
-            android:layout_toRightOf="@+id/iv_like"
-            android:layout_marginLeft="4dp"
-            android:gravity="center"
-            style="@style/textStyle.aqua.bold.16"/>
-
-        <ImageView
-            android:id="@+id/iv_comment"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_toEndOf="@+id/tv_likes_count"
-            android:layout_marginStart="16dp"
-            android:layout_toRightOf="@+id/tv_likes_count"
-            android:layout_marginLeft="16dp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_comment"/>
-
-        <TextView
-            android:id="@+id/tv_comments_count"
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:layout_toEndOf="@+id/iv_comment"
-            android:layout_marginStart="4dp"
-            tools:text="137"
-            android:layout_toRightOf="@+id/iv_comment"
-            android:layout_marginLeft="4dp"
-            android:gravity="center"
-            style="@style/textStyle.aqua.bold.16"/>
-
-    </RelativeLayout>
-
-    <View
-        android:id="@+id/underline_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:layout_below="@id/rl_likes_and_comments"
-        android:layout_marginTop="8dp"
-        android:background="@color/barvinock"/>
+    </ScrollView>
 
 </RelativeLayout>

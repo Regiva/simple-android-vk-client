@@ -15,4 +15,17 @@ class PostsRepository @Inject constructor(
         apiService.getNewsfeed(prefs.token ?: "")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+
+    fun getComments(
+        owner_id: Long,
+        post_id: Long
+    ) =
+        apiService.getComments(
+            token = prefs.token ?: "",
+            owner_id = owner_id,
+            post_id = post_id
+        )
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+
 }
