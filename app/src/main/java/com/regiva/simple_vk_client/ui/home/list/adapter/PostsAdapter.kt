@@ -36,7 +36,7 @@ class PostsAdapter(
             oldList = list,
             newList = newList,
             areItemsTheSame = { old, new -> old.post_id == new.post_id },
-            areContentsTheSame = { old, new -> old == new }
+            areContentsTheSame = { old, new -> (old == new) && (old.isLiked == new.isLiked) }
         )
         this.list = newList
     }

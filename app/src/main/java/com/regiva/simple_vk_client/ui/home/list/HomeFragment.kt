@@ -5,6 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.badoo.mvicore.android.AndroidBindings
 import com.badoo.mvicore.binder.using
+import com.badoo.mvicore.modelWatcher
 import com.regiva.simple_vk_client.R
 import com.regiva.simple_vk_client.Screens
 import com.regiva.simple_vk_client.entity.newsfeed.PostModel
@@ -30,7 +31,7 @@ class HomeFragment : MviFragment<HomeFragment.ViewModel, HomeFragment.UiEvents>(
     private val adapter: PostsAdapter by lazy {
         PostsAdapter(
             listOf(),
-            { /*todo like btn*/ },
+            { onNext(UiEvents.OnLikeClicked(it.isLiked, it.source.id, it.post_id)) },
             { flowRouter.navigateTo(Screens.DetailedPost(it)) }
         )
     }
@@ -44,11 +45,8 @@ class HomeFragment : MviFragment<HomeFragment.ViewModel, HomeFragment.UiEvents>(
         super.onViewCreated(view, savedInstanceState)
         setOnClickListeners()
         initRecycler()
-    }
-
-    override fun onResume() {
-        super.onResume()
         onNext(UiEvents.OnStart)
+
     }
 
     private fun setUpBindings() {
@@ -57,6 +55,7 @@ class HomeFragment : MviFragment<HomeFragment.ViewModel, HomeFragment.UiEvents>(
                 binder.bind(view to feature using { event ->
                     when (event) {
                         is UiEvents.OnStart -> PostsFeature.Wish.GetAllPosts
+                        is UiEvents.OnLikeClicked -> PostsFeature.Wish.LikePost(event.isLiked, event.owner_id, event.item_id)
                     }
                 })
                 binder.bind(feature to view using { state ->
@@ -97,12 +96,21 @@ class HomeFragment : MviFragment<HomeFragment.ViewModel, HomeFragment.UiEvents>(
     }
 
     override fun accept(vm: ViewModel) {
-        pb_loading?.setLoadingState(vm.isLoading)
-        vm.posts?.let { showPosts(it) }
+        modelWatcher<ViewModel> {
+            watch(ViewModel::isLoading) { pb_loading?.setLoadingState(it) }
+            watch(ViewModel::posts) { it?.let { showPosts(it) } }
+        }.invoke(vm)
+//        pb_loading?.setLoadingState(vm.isLoading)
+//        vm.posts?.let {
+//            TODO
+//            Log.d("rere", "ZDES YOPTA")
+//            showPosts(it)
+//        }
     }
 
     sealed class UiEvents {
         object OnStart : UiEvents()
+        data class OnLikeClicked(val isLiked: Boolean, val owner_id: Long, val item_id: Long) : UiEvents()
     }
 
     class ViewModel(
@@ -111,7 +119,7 @@ class HomeFragment : MviFragment<HomeFragment.ViewModel, HomeFragment.UiEvents>(
     )
 }
 
-/*
+/* todo
 * {
         "can_doubt_category": false,
         "can_set_category": false,
@@ -159,18 +167,18 @@ class HomeFragment : MviFragment<HomeFragment.ViewModel, HomeFragment.UiEvents>(
           "platform": "iphone"
         },
         "comments": {
-          "count": 0,
+          "likes": 0,
           "can_post": 1,
           "groups_can_post": true
         },
         "likes": {
-          "count": 0,
+          "likes": 0,
           "user_likes": 0,
           "can_like": 1,
           "can_publish": 1
         },
         "reposts": {
-          "count": 0,
+          "likes": 0,
           "user_reposted": 0
         },
         "post_id": 10749

@@ -13,7 +13,8 @@ data class PostModel(
     val attachments: @RawValue List<Attachment>?,
     val comment_count: Int,
     val likes_count: Int,
-    val post_id: Long
+    val post_id: Long,
+    var isLiked: Boolean = false
 ) : Parcelable
 
 data class PostSourceModel(

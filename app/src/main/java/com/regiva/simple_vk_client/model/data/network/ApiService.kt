@@ -1,6 +1,8 @@
 package com.regiva.simple_vk_client.model.data.network
 
 import com.regiva.simple_vk_client.Constants
+import com.regiva.simple_vk_client.entity.responses.CheckIsLikedResponse
+import com.regiva.simple_vk_client.entity.responses.LikesResponse
 import com.regiva.simple_vk_client.entity.responses.base.BaseResponse
 import com.regiva.simple_vk_client.entity.responses.newsfeed.GetCommentsResponse
 import com.regiva.simple_vk_client.entity.responses.newsfeed.GetNewsfeedResponse
@@ -22,11 +24,39 @@ interface ApiService {
         @Query("access_token") token: String,
         @Query("v") v: String = Constants.Api.API_VERSION,
         @Query("owner_id") owner_id: Long,
-        @Query("need_likes") need_likes: Int = 0,
         @Query("extended") extended: Int = 0,
+        @Query("likes") count: Int = 10,
         @Query("post_id") post_id: Long,
         @Query("sort") sort: String = "asc",
         @Query("preview_length") preview_length: Int = 0/*, todo
         @Query("comment_id") comment_id: Long*/
     ): Observable<BaseResponse<GetCommentsResponse>>
+
+    @GET("likes.add")
+    fun like(
+        @Query("access_token") token: String,
+        @Query("v") v: String = Constants.Api.API_VERSION,
+        @Query("type") type: String,
+        @Query("owner_id") owner_id: Long,
+        @Query("item_id") item_id: Long
+    ): Observable<BaseResponse<LikesResponse>>
+
+    @GET("likes.delete")
+    fun unlike(
+        @Query("access_token") token: String,
+        @Query("v") v: String = Constants.Api.API_VERSION,
+        @Query("type") type: String,
+        @Query("owner_id") owner_id: Long,
+        @Query("item_id") item_id: Long
+    ): Observable<BaseResponse<LikesResponse>>
+
+    @GET("likes.isLiked")
+    fun checkIsLiked(
+        @Query("access_token") token: String,
+        @Query("v") v: String = Constants.Api.API_VERSION,
+        @Query("type") type: String,
+        @Query("owner_id") owner_id: Long,
+        @Query("item_id") item_id: Long
+    ): Observable<BaseResponse<CheckIsLikedResponse>>
+
 }
