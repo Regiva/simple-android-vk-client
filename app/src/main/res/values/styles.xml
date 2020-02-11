@@ -1,11 +1,88 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    //text
+    <style name="textStyle"/>
+
+    //text toolbar
+    <style name="textStyle.toolbar" parent="textStyle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    //text darkGrey
+    <style name="textStyle.darkGrey" parent="textStyle">
+        <item name="android:textColor">@color/darkGrey</item>
+    </style>
+
+    <style name="textStyle.darkGrey.bold" parent="textStyle.darkGrey">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="textStyle.darkGrey.bold.14" parent="textStyle.darkGrey.bold">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="textStyle.darkGrey.bold.16" parent="textStyle.darkGrey.bold">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="textStyle.darkGrey.bold.18" parent="textStyle.darkGrey.bold">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="textStyle.darkGrey.normal" parent="textStyle.darkGrey">
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="textStyle.darkGrey.normal.14" parent="textStyle.darkGrey.normal">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    //text aqua
+    <style name="textStyle.aqua" parent="textStyle">
+        <item name="android:textColor">@color/aqua</item>
+    </style>
+
+    <style name="textStyle.aqua.normal" parent="textStyle.aqua">
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="textStyle.aqua.normal.10" parent="textStyle.aqua.normal">
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="textStyle.aqua.bold" parent="textStyle.aqua">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="textStyle.aqua.bold.16" parent="textStyle.aqua.bold">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    //default elements styles
+    <style name="defaultAvatarStyle">
+        <item name="android:layout_width">36dp</item>
+        <item name="android:layout_height">36dp</item>
+    </style>
+
+    <style name="defaultBlockStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="defaultToolbarStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?actionBarSize</item>
+        <item name="android:elevation" tools:targetApi="lollipop">4dp</item>
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+    <style name="progressBarStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:layout_centerInParent">true</item>
     </style>
 
 </resources>

@@ -1,6 +1,7 @@
 package com.regiva.simple_vk_client
 
 import android.app.Application
+import com.facebook.drawee.backends.pipeline.Fresco
 import com.regiva.simple_vk_client.di.DI
 import com.regiva.simple_vk_client.di.module.AppModule
 import toothpick.Toothpick
@@ -12,6 +13,7 @@ class App : Application() {
         super.onCreate()
         toothpick()
         appScope()
+        Fresco.initialize(this)
     }
 
     private fun toothpick() {

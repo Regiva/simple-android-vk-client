@@ -3,6 +3,7 @@ package com.regiva.simple_vk_client.presentation
 import com.regiva.simple_vk_client.Screens
 import com.regiva.simple_vk_client.di.DI
 import com.regiva.simple_vk_client.di.module.ServerModule
+import com.regiva.simple_vk_client.model.interactors.AuthInteractor
 import ru.terrakok.cicerone.Router
 import toothpick.Toothpick
 import javax.inject.Inject
@@ -20,11 +21,15 @@ class AppLauncher @Inject constructor(
     }
 
     fun coldStart() {
-        if (authInteractor.isLoggedIn()) {
+        //todo
+        /*if (authInteractor.isLoggedIn()) {
+            Log.d("rere", "main yopta =)")
             router.newRootScreen(Screens.Main())
         }
         else {
+            Log.d("rere", "huinya vishla.... =(")
             router.newRootScreen(Screens.AuthFlow)
-        }
+        }*/
+        router.newRootScreen(Screens.AuthFlow)
     }
 }

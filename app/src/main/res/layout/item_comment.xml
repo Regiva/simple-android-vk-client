@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
+
+    <RelativeLayout
+        android:id="@+id/rl_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?actionBarSize">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true">
+
+            <ImageView
+                android:id="@+id/iv_avatar"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                style="@style/defaultAvatarStyle"
+                tools:src="@tools:sample/avatars"/>
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/iv_avatar"
+                android:layout_toRightOf="@+id/iv_avatar"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                tools:text="Фамилия Имя"
+                style="@style/textStyle.darkGrey.bold.14"/>
+
+            <TextView
+                android:id="@+id/tv_comment_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_name"
+                android:layout_toEndOf="@+id/iv_avatar"
+                android:layout_toRightOf="@+id/iv_avatar"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginRight="18dp"
+                tools:text="@tools:sample/lorem/random"
+                tools:maxLines="2"
+                style="@style/textStyle.darkGrey.normal.14"/>
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/iv_avatar"
+                android:layout_toRightOf="@+id/iv_avatar"
+                android:layout_below="@+id/tv_comment_text"
+                android:layout_marginTop="2dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                tools:text="28 Июня 2018 в 4:20"
+                style="@style/textStyle.aqua.normal.10"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>
