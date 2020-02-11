@@ -90,12 +90,14 @@
 
             <RelativeLayout
                 android:id="@+id/rl_likes_and_comments"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rv_photos"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginLeft="12dp">
+                android:padding="4dp"
+                android:background="?selectableItemBackground">
 
                 <ImageView
                     android:id="@+id/iv_like"
@@ -107,7 +109,7 @@
                 <TextView
                     android:id="@+id/tv_likes_count"
                     android:layout_width="wrap_content"
-                    android:layout_height="32dp"
+                    android:layout_height="wrap_content"
                     android:layout_toEndOf="@+id/iv_like"
                     android:layout_marginStart="4dp"
                     tools:text="322"
@@ -142,10 +144,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_comments_count"
-                tools:listitem="@layout/item_comment"/>
+                tools:listitem="@layout/item_comment"
+                tools:itemCount="2"/>
 
         </RelativeLayout>
 
     </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/pb_loading"
+        style="@style/progressBarStyle"/>
 
 </RelativeLayout>

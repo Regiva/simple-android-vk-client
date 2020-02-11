@@ -1,7 +1,6 @@
 package com.regiva.simple_vk_client.ui.home.list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -50,7 +49,6 @@ class HomeFragment : MviFragment<HomeFragment.ViewModel, HomeFragment.UiEvents>(
         setOnClickListeners()
         initRecycler()
         onNext(UiEvents.OnGetNewsFeed)
-
     }
 
     private fun setUpBindings() {
@@ -82,12 +80,11 @@ class HomeFragment : MviFragment<HomeFragment.ViewModel, HomeFragment.UiEvents>(
         rv_posts.adapter = adapter
         rv_posts.setOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                Log.d("rere", "scroll")
+                //todo
                 super.onScrolled(recyclerView, dx, dy)
                 val totalItemCount = (recyclerView.layoutManager as LinearLayoutManager).itemCount
                 val lastVisibleItem = (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
                 if (isLoadingMore != true && lastVisibleItem == totalItemCount - 1) {
-                    Log.d("rere", "scroll!!!!!!!!")
                     onNext(UiEvents.OnGetNewsFeed)
                     isLoadingMore = true
                 }
@@ -116,14 +113,11 @@ class HomeFragment : MviFragment<HomeFragment.ViewModel, HomeFragment.UiEvents>(
     override fun accept(vm: ViewModel) {
         modelWatcher<ViewModel> {
             watch(ViewModel::isLoading) { pb_loading?.setLoadingState(it) }
-            watch(ViewModel::posts) { it?.let { showPosts(it) } }
+            watch(ViewModel::posts) {
+                it?.let { showPosts(it) }
+                isLoadingMore = false
+            }
         }.invoke(vm)
-//        pb_loading?.setLoadingState(vm.isLoading)
-//        vm.posts?.let {
-//            TODO
-//            Log.d("rere", "ZDES YOPTA")
-//            showPosts(it)
-//        }
     }
 
     sealed class UiEvents {

@@ -15,7 +15,7 @@ class LikesRepository @Inject constructor(
         apiService.like(
             token = prefs.token ?: "",
             type = type,
-            owner_id = owner_id,
+            owner_id = -owner_id,
             item_id = item_id
         )
             .subscribeOn(Schedulers.io())
@@ -25,7 +25,7 @@ class LikesRepository @Inject constructor(
         apiService.unlike(
             token = prefs.token ?: "",
             type = type,
-            owner_id = owner_id,
+            owner_id = -owner_id,
             item_id = item_id
         )
             .subscribeOn(Schedulers.io())

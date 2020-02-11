@@ -25,7 +25,7 @@ class PostsRepository @Inject constructor(
     ) =
         apiService.getComments(
             token = prefs.token ?: "",
-            owner_id = owner_id,
+            owner_id = -owner_id,
             post_id = post_id
         )
             .subscribeOn(Schedulers.io())

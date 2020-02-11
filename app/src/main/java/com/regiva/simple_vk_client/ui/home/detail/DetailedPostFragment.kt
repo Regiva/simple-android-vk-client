@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.badoo.mvicore.android.AndroidBindings
 import com.badoo.mvicore.binder.using
+import com.badoo.mvicore.modelWatcher
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.regiva.simple_vk_client.R
@@ -18,6 +19,7 @@ import com.regiva.simple_vk_client.ui.base.MviFragment
 import com.regiva.simple_vk_client.ui.home.detail.adapter.CommentsAdapter
 import com.regiva.simple_vk_client.ui.home.list.adapter.PhotosAdapter
 import com.regiva.simple_vk_client.util.convertToDateFormat
+import com.regiva.simple_vk_client.util.setLoadingState
 import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.fragment_detailed_post.*
 
@@ -78,7 +80,10 @@ class DetailedPostFragment : MviFragment<DetailedPostFragment.ViewModel, Detaile
         tv_date.text = post.date.convertToDateFormat()
         tv_post_text.text = post.text
         tv_likes_count.text = post.likes_count.toString()
-        tv_comments_count.text = post.comment_count.toString()
+        tv_comments_count.text = with (post.comment_count) {
+            if (this == 1) "1 comment"
+            else "$this comments"
+        }
 
         Glide.with(context!!)
             .load(post.source.photo)
@@ -92,11 +97,12 @@ class DetailedPostFragment : MviFragment<DetailedPostFragment.ViewModel, Detaile
             override fun setup(view: DetailedPostFragment) {
                 binder.bind(view to feature using { event ->
                     when (event) {
-                        is UiEvents.OnStart -> DetailedPostFeature.Wish.GetComments(post?.source?.id ?: 0, post?.post_id ?: 0)
+                        is UiEvents.OnStart -> DetailedPostFeature.Wish.GetComments(post!!)
                     }
                 })
                 binder.bind(feature to view using { state ->
                     ViewModel(
+                        state.post,
                         state.isLoading,
                         state.comments
                     )
@@ -130,8 +136,11 @@ class DetailedPostFragment : MviFragment<DetailedPostFragment.ViewModel, Detaile
     }
 
     override fun accept(vm: ViewModel) {
-//        pb_loading?.setLoadingState(vm.isLoading)
-        vm.comments?.let { showComments(it) }
+        modelWatcher<ViewModel> {
+            watch(ViewModel::isLoading) { pb_loading?.setLoadingState(it) }
+            watch(ViewModel::comments) { it?.let { showComments(it) } }
+            watch(ViewModel::post) { it?.let { post = it } }
+        }.invoke(vm)
     }
 
     sealed class UiEvents {
@@ -139,6 +148,7 @@ class DetailedPostFragment : MviFragment<DetailedPostFragment.ViewModel, Detaile
     }
 
     class ViewModel(
+        val post: PostModel?,
         val isLoading: Boolean,
         val comments: List<CommentResponseModel>?
     )

@@ -14,43 +14,8 @@ class CommentHolder(
     fun bind(
         data: CommentResponseModel
     ) {
-//        data.attachments?.let { initPhotos(it) }
         //todo containerView.tv_name.text = data.source.name
         containerView.tv_date.text = data.date.convertToDateFormat()
         containerView.tv_comment_text.text = data.text
-        /*if (data.comment.isNotBlank())
-            tv_doc_desription.text = data.comment
-        else
-            tv_doc_desription?.visibility = View.GONE*/
-
-//        Glide.with(containerView.context)
-//            .load(data.)
-            ////todo placeholder
-//            .apply(RequestOptions().circleCrop())
-//            .into(itemView.iv_avatar)
     }
-
-    /*private fun initPhotos(attachments: List<Attachment>) {
-        with(attachments.filter { it.type == "photo" }) {
-            Log.d("rere", "size = ${this.size}")
-            *//* if (this.isNullOrEmpty()) {
-                 containerView.rv_photos.setGone()
-             }
-             else *//*
-            if (this.size == 1) {
-            //todo
-            Log.d("rere", "blya ya zdes!!!")
-//                containerView.rv_photos.recycledViewPool.setMaxRecycledViews(0, 0)
-            containerView.rv_photos.layoutManager = GridLayoutManager(containerView.context, 1)
-            containerView.rv_photos.adapter = PhotosAdapter(attachments.filter { it.type == "photo" })
-//                Glide.with(containerView.context)
-//                    .load(this[0].photo?.photo_604 ?: this[0].photo?.photo_807 ?: this[0].photo?.photo_130)
-//                    .into(containerView.iv_single_photo)
-            }
-            else {
-                containerView.rv_photos.layoutManager = GridLayoutManager(containerView.context, 3)
-                containerView.rv_photos.adapter = PhotosAdapter(attachments.filter { it.type == "photo" })
-            }
-        }
-    }*/
 }

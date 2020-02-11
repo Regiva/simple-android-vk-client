@@ -1,10 +1,10 @@
 package com.regiva.simple_vk_client.model.data.feature
 
-import android.util.Log
 import com.badoo.mvicore.element.Actor
 import com.badoo.mvicore.element.NewsPublisher
 import com.badoo.mvicore.element.Reducer
 import com.badoo.mvicore.feature.ActorReducerFeature
+import com.regiva.simple_vk_client.entity.newsfeed.PostModel
 import com.regiva.simple_vk_client.entity.responses.newsfeed.CommentResponseModel
 import com.regiva.simple_vk_client.model.data.feature.DetailedPostFeature.*
 import com.regiva.simple_vk_client.model.interactors.PostsInteractor
@@ -23,20 +23,22 @@ class DetailedPostFeature @Inject constructor(
 ) {
 
     data class State(
+        val post: PostModel? = null,
         val isLoading: Boolean = false,
         val comments: List<CommentResponseModel>? = null
 //        val profiles: List<ProfileModel>? = null
     )
 
     sealed class Wish {
-        data class GetComments(val owner_id: Long, val post_id: Long) : Wish()
+        data class GetComments(val post: PostModel) : Wish()
+
         //todo
 //        data class DeleteDoc(val docId: String) : Wish()
 //        data class ChangeFavoriteStatus(val docId: String) : Wish()
     }
 
     sealed class Effect {
-        object GetCommentsStart : Effect()
+        data class GetCommentsStart(val post: PostModel) : Effect()
         data class GetCommentsSuccess(val comments: List<CommentResponseModel>) : Effect()
         data class GetCommentsFailure(val throwable: Throwable) : Effect()
     }
@@ -50,19 +52,16 @@ class DetailedPostFeature @Inject constructor(
     ) : Actor<State, Wish, Effect> {
         override fun invoke(state: State, wish: Wish): Observable<Effect> = when (wish) {
             is Wish.GetComments ->
-                postsInteractor.getComments(wish.owner_id, wish.post_id)
-                    .map {
-                        Log.d("rere", "YA TUUUUUT")
-                        Effect.GetCommentsSuccess(it.response.items) as Effect
-                    }
-                    .startWith(Effect.GetCommentsStart)
+                postsInteractor.getComments(wish.post.source.id, wish.post.post_id)
+                    .map { Effect.GetCommentsSuccess(it.response.items) as Effect }
+                    .startWith(Effect.GetCommentsStart(wish.post))
                     .onErrorReturn { Effect.GetCommentsFailure(it) }
         }
     }
 
     class ReducerImpl : Reducer<State, Effect> {
         override fun invoke(state: State, effect: Effect): State = when (effect) {
-            is Effect.GetCommentsStart -> state.copy(isLoading = true)
+            is Effect.GetCommentsStart -> state.copy(isLoading = true, post = effect.post)
             is Effect.GetCommentsSuccess -> state.copy(isLoading = false, comments = effect.comments)
             is Effect.GetCommentsFailure -> state.copy(isLoading = false)
         }
@@ -71,7 +70,6 @@ class DetailedPostFeature @Inject constructor(
     class NewsPublisherImpl : NewsPublisher<Wish, Effect, State, News> {
         override fun invoke(wish: Wish, effect: Effect, state: State): News? = when (effect) {
             is Effect.GetCommentsFailure -> News.GetCommentsFailure(effect.throwable)
-
             else -> null
         }
     }

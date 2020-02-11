@@ -1,6 +1,5 @@
 package com.regiva.simple_vk_client.model.data.feature
 
-import android.util.Log
 import com.badoo.mvicore.element.Actor
 import com.badoo.mvicore.element.NewsPublisher
 import com.badoo.mvicore.element.Reducer
@@ -61,9 +60,9 @@ class PostsFeature @Inject constructor(
             is Wish.GetAllPosts ->
                 postsInteractor.getNewsfeed(state.start_from)
                     .flatMapIterable {
-                        state.copy(start_from = it.response.next_from)
-                        Log.d("rere", "start_from ${state.start_from}")
-                        Log.d("rere", "next_from ${it.response.next_from}")
+//                        state.copy(start_from = it.response.next_from)
+//                        Log.d("rere", "start_from ${state.start_from}")
+//                        Log.d("rere", "next_from ${it.response.next_from}")
                         it.response.items
                             .filter { !it.text.isNullOrBlank() && !it.attachments.isNullOrEmpty() }
                             .map { post ->
@@ -131,7 +130,7 @@ class PostsFeature @Inject constructor(
     class NewsPublisherImpl : NewsPublisher<Wish, Effect, State, News> {
         override fun invoke(wish: Wish, effect: Effect, state: State): News? = when (effect) {
             is Effect.GetAllPostsFailure -> News.GetAllPostsFailure(effect.throwable)
-            //todo
+            is Effect.LikePostFailure -> News.LikePostFailure(effect.throwable)
             else -> null
         }
     }
