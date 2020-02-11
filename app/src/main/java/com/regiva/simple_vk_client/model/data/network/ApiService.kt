@@ -16,7 +16,10 @@ interface ApiService {
     fun getNewsfeed(
         @Query("access_token") token: String,
         @Query("v") v: String = Constants.Api.API_VERSION,
-        @Query("filter") filter: String = "post"
+        @Query("filter") filter: String = "post",
+        @Query("source_ids") source_ids: String = "groups, pages",
+        @Query("count") count: Int = 20,
+        @Query("start_from") start_from: String?
     ): Observable<BaseResponse<GetNewsfeedResponse>>
 
     @GET("wall.getComments")

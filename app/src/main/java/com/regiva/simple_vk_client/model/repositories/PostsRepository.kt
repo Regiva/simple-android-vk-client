@@ -11,8 +11,11 @@ class PostsRepository @Inject constructor(
     private val prefs: Prefs
 ) {
 
-    fun getNewsfeed() =
-        apiService.getNewsfeed(prefs.token ?: "")
+    fun getNewsfeed(start_from: String?) =
+        apiService.getNewsfeed(
+            token = prefs.token ?: "",
+            start_from = start_from
+        )
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 

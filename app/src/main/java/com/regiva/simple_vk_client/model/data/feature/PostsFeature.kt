@@ -1,5 +1,6 @@
 package com.regiva.simple_vk_client.model.data.feature
 
+import android.util.Log
 import com.badoo.mvicore.element.Actor
 import com.badoo.mvicore.element.NewsPublisher
 import com.badoo.mvicore.element.Reducer
@@ -28,8 +29,9 @@ class PostsFeature @Inject constructor(
 
     data class State(
         val isLoading: Boolean = false,
-        val posts: List<PostModel>? = null,
-        val profiles: List<ProfileModel>? = null
+        val posts: List<PostModel> = listOf(),
+        val profiles: List<ProfileModel>? = null,
+        val start_from: String? = null
     )
 
     sealed class Wish {
@@ -39,7 +41,7 @@ class PostsFeature @Inject constructor(
 
     sealed class Effect {
         object GetAllPostsStart : Effect()
-        data class GetAllPostsSuccess(val posts: List<PostModel>) : Effect()
+        data class GetAllPostsSuccess(val posts: List<PostModel>, val start_from: String) : Effect()
         data class GetAllPostsFailure(val throwable: Throwable) : Effect()
 
         object LikePostStart : Effect()
@@ -57,15 +59,18 @@ class PostsFeature @Inject constructor(
     ) : Actor<State, Wish, Effect> {
         override fun invoke(state: State, wish: Wish): Observable<Effect> = when (wish) {
             is Wish.GetAllPosts ->
-                postsInteractor.getNewsfeed()
+                postsInteractor.getNewsfeed(state.start_from)
                     .flatMapIterable {
+                        state.copy(start_from = it.response.next_from)
+                        Log.d("rere", "start_from ${state.start_from}")
+                        Log.d("rere", "next_from ${it.response.next_from}")
                         it.response.items
                             .filter { !it.text.isNullOrBlank() && !it.attachments.isNullOrEmpty() }
                             .map { post ->
-                                Pair(post, it.response.groups.find { it.id == -post.source_id })
+                                Triple(post, it.response.groups.find { it.id == -post.source_id }, it.response.next_from)
                             }
                     }
-                    .delayEach(500L, TimeUnit.MILLISECONDS)
+                    .delayEach(400L, TimeUnit.MILLISECONDS)
                     .flatMap { postResponse ->
                         postsInteractor.checkIsLiked(postResponse.first.source_id, postResponse.first.post_id)
                             .map {
@@ -79,10 +84,9 @@ class PostsFeature @Inject constructor(
                                     post_id = postResponse.first.post_id
                                 )
                                 post.isLiked = if (it.response.liked == 0) false else true
-                                post
+                                post to postResponse.third
                             }
                             .doOnError { it.printStackTrace() }
-
                     }
                     .map {
                         it
@@ -90,7 +94,7 @@ class PostsFeature @Inject constructor(
                     .toList()
                     .observeOn(AndroidSchedulers.mainThread())
                     .map {
-                        Effect.GetAllPostsSuccess(it) as Effect
+                        Effect.GetAllPostsSuccess(it.map { it.first }, it.first().second) as Effect
                     }
                     .toObservable()
                     .startWith(Effect.GetAllPostsStart)
@@ -108,13 +112,16 @@ class PostsFeature @Inject constructor(
     class ReducerImpl : Reducer<State, Effect> {
         override fun invoke(state: State, effect: Effect): State = when (effect) {
             is Effect.GetAllPostsStart -> state.copy(isLoading = true)
-            is Effect.GetAllPostsSuccess -> state.copy(isLoading = false, posts = effect.posts)
+            is Effect.GetAllPostsSuccess -> state.copy(isLoading = false, posts = state.posts + effect.posts, start_from = effect.start_from)
             is Effect.GetAllPostsFailure -> state.copy(isLoading = false)
 
             is Effect.LikePostStart -> state //todo
             is Effect.LikePostSuccess -> state.copy(
-                posts = state.posts?.map {
-                    if (it.post_id == effect.item_id) it.copy(isLiked = !it.isLiked, likes_count = effect.like_count) else it
+                posts = state.posts.map {
+                    if (it.post_id == effect.item_id)
+                        it.copy(isLiked = !it.isLiked, likes_count = effect.like_count)
+                    else
+                        it
                 }
             )
             is Effect.LikePostFailure -> state

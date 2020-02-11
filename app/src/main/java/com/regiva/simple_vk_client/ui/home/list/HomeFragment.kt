@@ -1,8 +1,10 @@
 package com.regiva.simple_vk_client.ui.home.list
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.badoo.mvicore.android.AndroidBindings
 import com.badoo.mvicore.binder.using
 import com.badoo.mvicore.modelWatcher
@@ -36,6 +38,8 @@ class HomeFragment : MviFragment<HomeFragment.ViewModel, HomeFragment.UiEvents>(
         )
     }
 
+    private var isLoadingMore: Boolean? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setUpBindings()
@@ -45,7 +49,7 @@ class HomeFragment : MviFragment<HomeFragment.ViewModel, HomeFragment.UiEvents>(
         super.onViewCreated(view, savedInstanceState)
         setOnClickListeners()
         initRecycler()
-        onNext(UiEvents.OnStart)
+        onNext(UiEvents.OnGetNewsFeed)
 
     }
 
@@ -54,7 +58,7 @@ class HomeFragment : MviFragment<HomeFragment.ViewModel, HomeFragment.UiEvents>(
             override fun setup(view: HomeFragment) {
                 binder.bind(view to feature using { event ->
                     when (event) {
-                        is UiEvents.OnStart -> PostsFeature.Wish.GetAllPosts
+                        is UiEvents.OnGetNewsFeed -> PostsFeature.Wish.GetAllPosts
                         is UiEvents.OnLikeClicked -> PostsFeature.Wish.LikePost(event.isLiked, event.owner_id, event.item_id)
                     }
                 })
@@ -76,6 +80,20 @@ class HomeFragment : MviFragment<HomeFragment.ViewModel, HomeFragment.UiEvents>(
     private fun initRecycler() {
         rv_posts.layoutManager = LinearLayoutManager(activity)
         rv_posts.adapter = adapter
+        rv_posts.setOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                Log.d("rere", "scroll")
+                super.onScrolled(recyclerView, dx, dy)
+                val totalItemCount = (recyclerView.layoutManager as LinearLayoutManager).itemCount
+                val lastVisibleItem = (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                if (isLoadingMore != true && lastVisibleItem == totalItemCount - 1) {
+                    Log.d("rere", "scroll!!!!!!!!")
+                    onNext(UiEvents.OnGetNewsFeed)
+                    isLoadingMore = true
+                }
+            }
+
+        })
 //        rv_posts.recycledViewPool.setMaxRecycledViews(0, 0)
     }
 
@@ -109,7 +127,7 @@ class HomeFragment : MviFragment<HomeFragment.ViewModel, HomeFragment.UiEvents>(
     }
 
     sealed class UiEvents {
-        object OnStart : UiEvents()
+        object OnGetNewsFeed : UiEvents()
         data class OnLikeClicked(val isLiked: Boolean, val owner_id: Long, val item_id: Long) : UiEvents()
     }
 
