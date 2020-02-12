@@ -13,19 +13,4 @@ class AuthInteractor @Inject constructor(
 
     fun storeToken(token: String) = authRepository.storeToken(token)
 
-    //todo
-    /*fun register(userAuthDto: UserAuthDto) =
-        authRepository.register(userAuthDto)
-            .toObservable()
-
-    fun logIn(userAuthDto: UserAuthDto) =
-        authRepository.logIn(userAuthDto)
-            .toObservable()
-
-    fun logOut() =
-        authRepository.logOut()
-
-    fun restorePassword(email: String) =
-        authRepository.sendEmailForRestoringPassword(email)
-            .toObservable()*/
 }

@@ -1,10 +1,7 @@
 package com.regiva.simple_vk_client.entity.responses.newsfeed
 
 data class GetCommentsResponse(
-    val items: List<CommentResponseModel>//todo
-//    val profiles: List<ProfileModel>,
-//    val groups: List<GroupModel>,
-//    val next_from: String
+    val items: List<CommentResponseModel>
 )
 
 data class CommentResponseModel(

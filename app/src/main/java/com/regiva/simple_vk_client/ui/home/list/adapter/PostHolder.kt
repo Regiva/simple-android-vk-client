@@ -1,6 +1,5 @@
 package com.regiva.simple_vk_client.ui.home.list.adapter
 
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,27 +30,16 @@ class PostHolder(
         tv_comments_count.text = data.comment_count.toString()
         iv_like.setOnClickListener { likeClick(data) }
         Glide.with(containerView.context)
-            .load(if (data.isLiked) {
-                Log.d("rere", "liked")
-                R.drawable.ic_like_active
-            }
-                else R.drawable.ic_like
+            .load(
+                if (data.isLiked) R.drawable.ic_like_active else R.drawable.ic_like
             )
             .into(iv_like)
-        /*if (data.comment.isNotBlank())
-            tv_doc_desription.text = data.comment
-        else
-            tv_doc_desription?.visibility = View.GONE*/
 
         Glide.with(containerView.context)
             .load(data.source.photo)
-            //todo placeholder
+            .placeholder(R.mipmap.ic_placeholder_user)
             .apply(RequestOptions().circleCrop())
             .into(iv_avatar)
-
-//        Glide.with(containerView.context)
-//            .load(data.attachments?.first())
-//            .into(itemView.iv_avatar)
     }
 
     private fun initPhotos(attachments: List<Attachment>) {

@@ -27,27 +27,11 @@ class OkHttpClientProvider @Inject constructor(
                 HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
             )
         }
-        //todo
-//        addNetworkInterceptor(ErrorResponseInterceptor())
-//        enableHttp2FrameLogging()
         build()
     }
 
     companion object {
         private const val CACHE_SIZE_BYTES = 20 * 1024L
         private const val TIMEOUT = 100L
-    }
-
-    private fun enableHttp2FrameLogging() {
-        val frameLogger = Logger.getLogger(Http2::class.java.name)
-        frameLogger.level = Level.FINE
-        val handler = ConsoleHandler()
-        handler.level = Level.FINE
-        handler.formatter = object : SimpleFormatter() {
-            override fun format(record: LogRecord): String {
-                return Util.format("%s%n", record.message)
-            }
-        }
-        frameLogger.addHandler(handler)
     }
 }

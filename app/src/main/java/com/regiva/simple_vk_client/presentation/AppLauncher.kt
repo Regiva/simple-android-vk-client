@@ -22,14 +22,10 @@ class AppLauncher @Inject constructor(
 
     fun coldStart() {
         //todo
-        /*if (authInteractor.isLoggedIn()) {
-            Log.d("rere", "main yopta =)")
+        /*if (authInteractor.isLoggedIn())
             router.newRootScreen(Screens.Main())
-        }
-        else {
-            Log.d("rere", "huinya vishla.... =(")
-            router.newRootScreen(Screens.AuthFlow)
-        }*/
+        else
+            router.newRootScreen(Screens.AuthFlow)*/
         router.newRootScreen(Screens.AuthFlow)
     }
 }

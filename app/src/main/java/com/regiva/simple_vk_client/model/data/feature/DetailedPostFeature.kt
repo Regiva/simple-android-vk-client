@@ -26,15 +26,10 @@ class DetailedPostFeature @Inject constructor(
         val post: PostModel? = null,
         val isLoading: Boolean = false,
         val comments: List<CommentResponseModel>? = null
-//        val profiles: List<ProfileModel>? = null
     )
 
     sealed class Wish {
         data class GetComments(val post: PostModel) : Wish()
-
-        //todo
-//        data class DeleteDoc(val docId: String) : Wish()
-//        data class ChangeFavoriteStatus(val docId: String) : Wish()
     }
 
     sealed class Effect {
