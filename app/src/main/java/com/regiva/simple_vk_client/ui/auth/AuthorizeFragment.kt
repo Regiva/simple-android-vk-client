@@ -33,22 +33,16 @@ class AuthorizeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setOnClickListeners()
         openAuthPage()
     }
 
     private fun openAuthPage() {
         wv_auth.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                //todo
-                Log.d("rere", "url = $url")
                 if ((url?.contains("https://oauth.vk.com/blank.html")) == true) {
-                    Log.d("rere", "ya zawel)")
-
                     val token = url
                         .substringAfter("access_token=")
                         .substringBefore("&expires_in")
-                    Log.d("rere", "save token blean $token")
                     authInteractor.storeToken(token)
                     flowRouter.newRootFlow(Screens.Main())
                 }
@@ -58,12 +52,7 @@ class AuthorizeFragment : BaseFragment() {
                 return false
             }
         }
-        //todo 23429620123402ab3988552cb543802cb7c0e26f4547f5b302b1e91ffdd442d467fdd0e065002c1ac1de7
         wv_auth.loadUrl("https://oauth.vk.com/authorize?client_id=${Constants.Api.APP_ID}&display=page&redirect_uri=https://oauth.vk.com/blank.html&scope=wall,friends,groups&response_type=token&v=5.60")
     }
 
-    private fun setOnClickListeners() {
-//        btn_login?.setOnClickListener { goToLogin() }
-//        tv_sign_up?.setOnClickListener{ goToRegister()}
-    }
 }

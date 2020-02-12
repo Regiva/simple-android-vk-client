@@ -60,9 +60,6 @@ class PostsFeature @Inject constructor(
             is Wish.GetAllPosts ->
                 postsInteractor.getNewsfeed(state.start_from)
                     .flatMapIterable {
-//                        state.copy(start_from = it.response.next_from)
-//                        Log.d("rere", "start_from ${state.start_from}")
-//                        Log.d("rere", "next_from ${it.response.next_from}")
                         it.response.items
                             .filter { !it.text.isNullOrBlank() && !it.attachments.isNullOrEmpty() }
                             .map { post ->
@@ -114,7 +111,7 @@ class PostsFeature @Inject constructor(
             is Effect.GetAllPostsSuccess -> state.copy(isLoading = false, posts = state.posts + effect.posts, start_from = effect.start_from)
             is Effect.GetAllPostsFailure -> state.copy(isLoading = false)
 
-            is Effect.LikePostStart -> state //todo
+            is Effect.LikePostStart -> state
             is Effect.LikePostSuccess -> state.copy(
                 posts = state.posts.map {
                     if (it.post_id == effect.item_id)
@@ -135,110 +132,3 @@ class PostsFeature @Inject constructor(
         }
     }
 }
-
-/*.map { response ->
-                        val posts = response.response.items
-                            .filter { !it.text.isNullOrBlank() && !it.attachments.isNullOrEmpty() }
-                            .take(5)
-                            .map { postResponse ->
-                                val postSource =
-                                    if (postResponse.source_id > 0) {
-                                        with(response.response.profiles.find { it.id == postResponse.source_id }) {
-                                            PostSourceModel(
-                                                id = this?.id ?: 0,
-                                                name = this?.getName() ?: "",
-                                                photo = this?.photo_100 ?: ""
-                                            )
-                                        }
-                                    } else {
-                                        with(response.response.groups.find { it.id == -postResponse.source_id }) {
-                                            PostSourceModel(
-                                                id = this?.id ?: 0,
-                                                name = this?.name ?: "",
-                                                photo = this?.photo_100 ?: ""
-                                            )
-                                        }
-                                    }
-                                Log.d("rere", "ZAEBALSYAAAAAÀ")
-                                val post = PostModel(
-                                    source = postSource,
-                                    date = postResponse.date,
-                                    text = postResponse.text,
-                                    attachments = postResponse.attachments,
-                                    comment_count = postResponse.comments?.likes ?: 0,
-                                    likes_count = postResponse.likes?.likes ?: 0,
-                                    post_id = postResponse.post_id
-                                )
-                                postsInteractor.checkIsLiked(post.source.id, post.post_id)
-                                    .map {
-                                        Log.d("rere", "${post.text} \n is liked = ${it.response.liked}")
-                                        post.isLiked = it.response.liked
-
-                                    }
-//                                    .doOnSuccess {
-//                                        Log.d("rere", "${post.text} \n is liked = ${it.response.liked}")
-//                                        post.isLiked = it.response.liked
-//                                    }
-//                                    .delayEach(1000, TimeUnit.MILLISECONDS)
-                                post
-                            }
-                        Effect.GetAllPostsSuccess(posts) as Effect
-                        *//*Observable.fromArray(posts)
-                            .flatMapIterable { it }
-                            .flatMap { post ->
-                                Log.d("rere", "post_id = ${post.post_id}")
-
-
-                            }
-                            .map {
-                                Log.d("rere", "map yopta")
-                                Effect.GetAllPostsSuccess(posts) as Effect
-                            }
-                            .startWith(Effect.GetAllPostsStart)
-                            .onErrorReturn { Effect.GetAllPostsFailure(it) }*//*
-
-                    }
-*/
-// //                   .startWith(Effect.GetAllPostsStart)
-// //                   .onErrorReturn { Effect.GetAllPostsFailure(it) }
-
-/*.map { response ->
-    val posts = response.response.items
-        .flatMap { postResponse ->
-            val postSource =
-                if (postResponse.source_id > 0) {
-                    with (response.response.profiles.find { it.id == postResponse.source_id }) {
-                        PostSourceModel(
-                            id = this?.id ?: 0,
-                            name = this?.getName() ?: "",
-                            photo = this?.photo_100 ?: ""
-                        )
-                    }
-                }
-                else {
-                    with (response.response.groups.find { it.id == -postResponse.source_id }) {
-                        PostSourceModel(
-                            id = this?.id ?: 0,
-                            name = this?.name ?: "",
-                            photo = this?.photo_100 ?: ""
-                        )
-                    }
-                }
-            val post = PostModel(
-                source = postSource,
-                date = postResponse.date,
-                text = postResponse.text,
-                attachments = postResponse.attachments,
-                comment_count = postResponse.comments?.likes ?: 0,
-                likes_count = postResponse.likes?.likes ?: 0,
-                post_id = postResponse.post_id
-            )
-            postsInteractor.checkIsLiked(post.source.id, post.post_id)
-                .map {
-                    post.isLiked = it.response.liked
-                }
-        }
-        .startWith(Effect.GetAllPostsStart)
-        .onErrorReturn { Effect.GetAllPostsFailure(it) }
-    Effect.GetAllPostsSuccess(posts.filter { !it.text.isNullOrBlank() && !it.attachments.isNullOrEmpty() }) as Effect
-}*/

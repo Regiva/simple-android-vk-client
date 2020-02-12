@@ -4,4 +4,11 @@
     <string name="there_are_no_posts">У вас здесь пусто...</string>
     <string name="news">Новости</string>
     <string name="error_was_occurred">Произошла ошибка</string>
+    <string name="have_connection">Подключение восстановлено</string>
+    <string name="lost_connection">Нет подключения</string>
+    <string name="in_development">В разработке</string>
+    <string name="server_error">Произошла ошибка на сервере</string>
+    <string name="connection_error">Ошибка подключения</string>
+    <string name="unknown_error">Произошла ошибка</string>
+    <string name="single_comment">1 comment</string>
 </resources>

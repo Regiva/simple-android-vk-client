@@ -18,6 +18,7 @@ import com.regiva.simple_vk_client.model.system.FlowRouter
 import com.regiva.simple_vk_client.ui.base.MviFragment
 import com.regiva.simple_vk_client.ui.home.detail.adapter.CommentsAdapter
 import com.regiva.simple_vk_client.ui.home.list.adapter.PhotosAdapter
+import com.regiva.simple_vk_client.util.ErrorHandler
 import com.regiva.simple_vk_client.util.convertToDateFormat
 import com.regiva.simple_vk_client.util.setLoadingState
 import io.reactivex.functions.Consumer
@@ -39,10 +40,9 @@ class DetailedPostFragment : MviFragment<DetailedPostFragment.ViewModel, Detaile
     override val layoutRes: Int
         get() = R.layout.fragment_detailed_post
 
-    private val flowRouter: FlowRouter by scope()
+    private val flowRouter: FlowRouter? by scope()
     private val feature: DetailedPostFeature by scope()
-    //    private val errorHandler: ErrorHandler by scope()
-//    private val messageHandler: MessageHandler by scope()
+    private val errorHandler: ErrorHandler by scope()
     private val photosAdapter: PhotosAdapter by lazy {
         PhotosAdapter(post?.attachments?.filter { it.type == "photo" } ?: listOf())
     }
@@ -81,13 +81,13 @@ class DetailedPostFragment : MviFragment<DetailedPostFragment.ViewModel, Detaile
         tv_post_text.text = post.text
         tv_likes_count.text = post.likes_count.toString()
         tv_comments_count.text = with (post.comment_count) {
-            if (this == 1) "1 comment"
+            if (this == 1) getString(R.string.single_comment)
             else "$this comments"
         }
 
         Glide.with(context!!)
             .load(post.source.photo)
-            //todo placeholder
+            .placeholder(R.mipmap.ic_placeholder_user)
             .apply(RequestOptions().circleCrop())
             .into(iv_avatar)
     }
@@ -109,7 +109,7 @@ class DetailedPostFragment : MviFragment<DetailedPostFragment.ViewModel, Detaile
                 })
                 binder.bind(feature.news to Consumer { news ->
                     when (news) {
-                        is DetailedPostFeature.News.GetCommentsFailure -> {} //errorHandler.proceed(news.throwable) { view.showError(it) }
+                        is DetailedPostFeature.News.GetCommentsFailure -> errorHandler.proceed(news.throwable) { view.showError(it) }
                     }
                 })
             }
@@ -128,7 +128,7 @@ class DetailedPostFragment : MviFragment<DetailedPostFragment.ViewModel, Detaile
     }
 
     private fun setOnClickListeners() {
-        toolbar.setNavigationOnClickListener { flowRouter.exit() }
+        toolbar.setNavigationOnClickListener { flowRouter?.exit() }
     }
 
     private fun showComments(comments: List<CommentResponseModel>) {

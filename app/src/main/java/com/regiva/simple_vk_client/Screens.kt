@@ -16,12 +16,12 @@ object Screens {
         override fun getFragment() = AuthFlowFragment()
     }
 
-    //todo
     //tab flows
     object HomeFlow : SupportAppScreen() {
         override fun getFragment() = HomeFlowFragment()
     }
 
+    //todo
     /*object ProfileFlow : SupportAppScreen() {
         override fun getFragment() = ProfileFlowFragment()
     }*/

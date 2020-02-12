@@ -26,7 +26,6 @@ class MainFragment : BaseFragment() {
     private val router: Router by scope()
 
     private var currentTab: Int? = null
-//todo
     private val homeTab by lazy { Screens.HomeFlow }
     private val profileTab by lazy { Screens.HomeFlow }
 
@@ -53,19 +52,14 @@ class MainFragment : BaseFragment() {
         bnv_main.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> selectTab(homeTab)
-                R.id.profile -> selectTab(profileTab)
+                R.id.profile -> {
+                    showError(getString(R.string.in_development))
+                    selectTab(profileTab)
+                }
                 else -> selectTab(homeTab)
             }
             true
         }
-        //todo
-        /*bnv_main.itemIconTintList = ColorStateList(
-            arrayOf(
-                intArrayOf(-R.attr.state_checked),
-                intArrayOf(R.attr.state_checked)
-            ),
-            intArrayOf(R.color.black, R.color.mhBlue)
-        )*/
         bnv_main.selectedItemId = currentTab ?: R.id.home
         selectTab(
             when (currentTabFragment?.tag) {

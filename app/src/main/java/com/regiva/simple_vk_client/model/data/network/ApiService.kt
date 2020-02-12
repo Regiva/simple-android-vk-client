@@ -31,8 +31,7 @@ interface ApiService {
         @Query("likes") count: Int = 10,
         @Query("post_id") post_id: Long,
         @Query("sort") sort: String = "asc",
-        @Query("preview_length") preview_length: Int = 0/*, todo
-        @Query("comment_id") comment_id: Long*/
+        @Query("preview_length") preview_length: Int = 0
     ): Observable<BaseResponse<GetCommentsResponse>>
 
     @GET("likes.add")

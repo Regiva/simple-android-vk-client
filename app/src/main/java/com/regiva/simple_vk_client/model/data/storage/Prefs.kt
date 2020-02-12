@@ -27,10 +27,6 @@ class Prefs @Inject constructor(
     private val authPrefs by lazy { getSharedPreferences(AUTH_DATA) }
     private val appPrefs by lazy { getSharedPreferences(APP_DATA) }
 
-//    var account: UserDto
-//        get() = gson.fromJson(authPrefs.getString(KEY_ACCOUNT, null), UserDto::class.java)
-//        set(value) = authPrefs.edit().putString(KEY_ACCOUNT, gson.toJson(value)).apply()
-
     var token: String?
         get() = authPrefs.getString(KEY_TOKEN, null)
         set(value) = authPrefs.edit().putString(KEY_TOKEN, value).apply()
